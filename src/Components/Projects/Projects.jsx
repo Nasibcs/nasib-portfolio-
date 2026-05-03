@@ -3,7 +3,6 @@ import { FiExternalLink, FiGithub } from "react-icons/fi";
 import food from "./images/food.jpg";
 import elearn from "./images/elearna (2).png";
 import un from "./images/un.png";
-import form from "./images/form1.png";
 import portfolio from "./images/portfolio .png";
 import paint from "./images/paint.png";
 
@@ -25,15 +24,6 @@ const projects = [
     repo: "https://github.com/Nasibcs/University-Admin-Panel-",
     image: un,
     tags: ["React", "TypeScript", "Tailwind"],
-  },
-  {
-    title: "Form Validation",
-    description:
-      "Client-side validation patterns and error handling for React forms—ready to pair with any API.",
-    link: "https://from-validation-two.vercel.app/",
-    repo: "https://github.com/Nasibcs/From-validation-",
-    image: form,
-    tags: ["React", "JavaScript", "Tailwind"],
   },
   {
     title: "Portfolio",
