@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
@@ -14,26 +15,56 @@ export default function Nav() {
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
     setScrolled(currentScrollY > 10);
-    
-    // د navbar د پټولو لپاره کله چې لاندې سکرول کوئ
+
     if (currentScrollY > lastScrollY && currentScrollY > 100) {
       setHidden(true);
     } else {
       setHidden(false);
     }
-    
-    // د مینیو د بندولو لپاره کله چې سکرول کوئ
-    if (isOpen) {
-      setIsOpen(false);
-    }
-    
+
     setLastScrollY(currentScrollY);
-  }, [lastScrollY, isOpen]);
+  }, [lastScrollY]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
+
+  /* Lock page scroll while mobile menu is open (iOS overscroll won't close menu or scroll behind). */
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const html = document.documentElement;
+
+    const prevOverflow = body.style.overflow;
+    const prevPosition = body.style.position;
+    const prevTop = body.style.top;
+    const prevLeft = body.style.left;
+    const prevRight = body.style.right;
+    const prevWidth = body.style.width;
+    const prevOverscroll = html.style.overscrollBehavior;
+
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    html.style.overscrollBehavior = "none";
+
+    return () => {
+      body.style.overflow = prevOverflow;
+      body.style.position = prevPosition;
+      body.style.top = prevTop;
+      body.style.left = prevLeft;
+      body.style.right = prevRight;
+      body.style.width = prevWidth;
+      html.style.overscrollBehavior = prevOverscroll;
+      window.scrollTo(0, scrollY);
+    };
+  }, [isOpen]);
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -47,116 +78,129 @@ export default function Nav() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { staggerChildren: 0.12, delayChildren: 0.2 }
-    }
+      transition: { staggerChildren: 0.12, delayChildren: 0.2 },
+    },
   };
 
   const itemVariant = {
     hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0 }
+    visible: { opacity: 1, y: 0 },
   };
 
   const navVariants = {
     visible: { y: 0 },
-    hidden: { y: -100 }
+    hidden: { y: -100 },
   };
 
   return (
     <motion.nav
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg shadow-md border-b border-white/20 dark:border-gray-700/20 py-3"
-          : "bg-transparent py-4"
+      className={`fixed top-0 w-full transition-all duration-300 ${
+        isOpen ? "z-[10001]" : "z-50"
+      } ${
+        isOpen
+          ? "border-b border-zinc-200/90 bg-white py-3 shadow-md dark:border-white/10 dark:bg-charcoal"
+          : scrolled
+            ? "border-b border-zinc-200/90 bg-white/75 py-3 shadow-sm backdrop-blur-2xl dark:border-white/10 dark:bg-charcoal/80 dark:backdrop-blur-2xl"
+            : "bg-transparent py-4"
       }`}
       initial={{ y: -100 }}
-      animate={hidden ? "hidden" : "visible"}
+      animate={hidden && !isOpen ? "hidden" : "visible"}
       variants={navVariants}
       transition={{ duration: 0.3 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          
-          {/* Logo */}
-          <motion.div whileHover={{ scale: 1.05 }}>
-            <Link
-              to="/"
-              className="text-2xl font-bold bg-gradient-to-r from-green-500 to-emerald-600 bg-clip-text text-transparent"
-            >
-              Nasib
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <motion.div whileHover={{ scale: 1.02 }}>
+            <Link to="/" className="block leading-tight">
+              <span className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-2xl">
+                Nasib
+              </span>
+              <span className="hidden text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-orange-600 dark:text-cyber sm:block">
+                Full stack
+              </span>
             </Link>
           </motion.div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden items-center space-x-8 md:flex">
             <ul className="flex space-x-8">
               {navItems.map((item) => (
                 <motion.li key={item.name} whileHover={{ y: -2 }}>
                   <Link
                     to={item.path}
-                    className="relative group font-medium text-gray-700 dark:text-gray-300 hover:text-green-500 dark:hover:text-green-400 transition-colors"
+                    className="group relative font-medium text-zinc-700 transition-colors hover:text-orange-600 dark:text-zinc-300 dark:hover:text-cyber"
                   >
                     {item.name}
-                    <span className="absolute left-0 -bottom-1 h-[2px] bg-gradient-to-r from-green-400 to-emerald-500 w-0 group-hover:w-full transition-all duration-300 rounded-full" />
+                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 transition-all duration-300 group-hover:w-full dark:from-cyber dark:to-cyber-muted" />
                   </Link>
                 </motion.li>
               ))}
             </ul>
             <motion.div whileTap={{ scale: 0.95 }}>
-              <ThemeToggle/>
+              <ThemeToggle />
             </motion.div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          <div className="flex items-center md:hidden">
             <motion.div whileTap={{ scale: 0.9 }}>
               <ThemeToggle className="mr-4" />
             </motion.div>
             <button
+              type="button"
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-md text-gray-700 dark:text-gray-200 focus:outline-none"
+              className="rounded-md p-2 text-zinc-700 focus:outline-none dark:text-zinc-200"
             >
-              {isOpen ? (
-                <IoMdClose className="w-6 h-6" />
-              ) : (
-                <HiOutlineMenuAlt1 className="w-6 h-6" />
-              )}
+              {isOpen ? <IoMdClose className="h-6 w-6" /> : <HiOutlineMenuAlt1 className="h-6 w-6" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg z-40 flex flex-col items-center justify-center md:hidden"
-            onClick={() => setIsOpen(false)}
-          >
-            <motion.ul
-              variants={mobileNavVariant}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              className="space-y-8 text-center"
-            >
-              {navItems.map((item) => (
-                <motion.li key={item.name} variants={itemVariant}>
-                  <Link
-                    to={item.path}
-                    onClick={() => setIsOpen(false)}
-                    className="text-2xl font-semibold text-gray-700 dark:text-gray-300 hover:text-green-500 dark:hover:text-green-400 transition-colors block py-2"
+      {typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                key="mobile-nav-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                style={{ zIndex: 10000 }}
+                className="fixed inset-0 flex min-h-[100dvh] flex-col items-center overscroll-none bg-white dark:bg-charcoal md:hidden"
+                role="presentation"
+                aria-hidden={!isOpen}
+                onClick={() => setIsOpen(false)}
+              >
+                {/* Offset below fixed header (~4rem + safe area) so first link is never clipped */}
+                <div
+                  className="flex w-full max-w-lg flex-1 flex-col justify-center px-6 text-center pt-[calc(env(safe-area-inset-top,0px)+5.5rem)] pb-[max(4rem,env(safe-area-inset-bottom,0px))]"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <motion.ul
+                    variants={mobileNavVariant}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    className="space-y-6 sm:space-y-8"
                   >
-                    {item.name}
-                  </Link>
-                </motion.li>
-              ))}
-            </motion.ul>
-          </motion.div>
+                    {navItems.map((item) => (
+                      <motion.li key={item.name} variants={itemVariant}>
+                        <Link
+                          to={item.path}
+                          onClick={() => setIsOpen(false)}
+                          className="block py-1 text-3xl font-semibold tracking-tight text-zinc-900 hover:text-orange-600 dark:text-white dark:hover:text-cyber sm:text-[1.85rem]"
+                        >
+                          {item.name}
+                        </Link>
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </motion.nav>
   );
 }

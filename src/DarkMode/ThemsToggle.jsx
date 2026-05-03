@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState("light");
@@ -26,11 +27,16 @@ export default function ThemeToggle() {
 
   return (
     <button
+      type="button"
       onClick={toggleTheme}
-      className="p-2 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-white shadow transition"
-      aria-label="Toggle Dark Mode"
+      className="rounded-full border border-zinc-200 bg-white p-2.5 text-zinc-800 shadow-sm transition hover:border-orange-400/35 hover:text-orange-700 dark:border-cyber/30 dark:bg-charcoal-elevated dark:text-cyber dark:hover:border-cyber dark:hover:brightness-110"
+      aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
     >
-      {theme === "light" ? "🌙" : "☀️"}
+      {theme === "light" ? (
+        <HiOutlineMoon className="h-5 w-5" />
+      ) : (
+        <HiOutlineSun className="h-5 w-5" />
+      )}
     </button>
   );
 }

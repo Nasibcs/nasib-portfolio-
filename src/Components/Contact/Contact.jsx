@@ -18,12 +18,7 @@ export default function Contact() {
     setSuccess(null);
 
     emailjs
-      .send(
-        "nasib_1",      // Replace with your EmailJS service ID
-        "nasib_2",     // Replace with your EmailJS template ID
-        formData,
-        "DNUK7DTyusBxjxR-1"       // Replace with your EmailJS public key
-      )
+      .send("nasib_1", "nasib_2", formData, "DNUK7DTyusBxjxR-1")
       .then(() => {
         setLoading(false);
         setSuccess(true);
@@ -36,28 +31,33 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex items-center justify-center px-6 py-20">
-      <div className="max-w-5xl w-full">
-        
-        {/* Title */}
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-zinc-50 to-white px-6 py-24 text-zinc-800 dark:from-charcoal dark:to-charcoal-soft dark:text-zinc-200">
+      <div className="w-full max-w-5xl">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-5xl font-extrabold text-center mb-12 bg-gradient-to-r from-green-500 to-emerald-600 bg-clip-text text-transparent"
+          className="mb-3 text-center text-sm font-semibold uppercase tracking-widest text-orange-600 dark:text-cyber"
         >
-          Get In Touch
+          Contact
         </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.05 }}
+          className="mb-12 text-center text-4xl font-bold tracking-tight text-zinc-900 dark:text-white md:text-5xl"
+        >
+          Let&apos;s build something
+        </motion.p>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          
-          {/* Contact Form */}
+        <div className="grid gap-12 md:grid-cols-2">
           <motion.form
+            id="contact-form"
             onSubmit={handleSubmit}
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="space-y-6 bg-gray-100 dark:bg-gray-800 p-8 rounded-2xl shadow-lg"
+            className="glass-panel-strong space-y-6 rounded-2xl p-8"
           >
             <div className="relative">
               <input
@@ -68,11 +68,11 @@ export default function Contact() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 pt-5 pb-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="peer w-full rounded-xl border border-zinc-300 bg-transparent px-4 pb-2 pt-5 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:border-zinc-600 dark:focus:ring-cyber"
               />
               <label
                 htmlFor="name"
-                className="absolute left-4 top-2.5 text-gray-500 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base"
+                className="pointer-events-none absolute left-4 top-2.5 text-sm text-zinc-500 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-zinc-400"
               >
                 Name
               </label>
@@ -87,11 +87,11 @@ export default function Contact() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 pt-5 pb-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="peer w-full rounded-xl border border-zinc-300 bg-transparent px-4 pb-2 pt-5 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:border-zinc-600 dark:focus:ring-cyber"
               />
               <label
                 htmlFor="email"
-                className="absolute left-4 top-2.5 text-gray-500 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base"
+                className="pointer-events-none absolute left-4 top-2.5 text-sm text-zinc-500 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-zinc-400"
               >
                 Email
               </label>
@@ -106,59 +106,73 @@ export default function Contact() {
                 onChange={handleChange}
                 required
                 placeholder=" "
-                className="peer w-full px-4 pt-5 pb-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-green-500"
-              ></textarea>
+                className="peer w-full rounded-xl border border-zinc-300 bg-transparent px-4 pb-2 pt-5 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:border-zinc-600 dark:focus:ring-cyber"
+              />
               <label
                 htmlFor="message"
-                className="absolute left-4 top-2.5 text-gray-500 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base"
+                className="pointer-events-none absolute left-4 top-2.5 text-sm text-zinc-500 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-zinc-400"
               >
                 Message
               </label>
             </div>
 
             {success === true && (
-              <p className="text-green-500 text-sm">Message sent successfully!</p>
+              <p className="text-sm text-orange-600 dark:text-cyber">Message sent successfully.</p>
             )}
             {success === false && (
-              <p className="text-red-500 text-sm">Something went wrong. Try again.</p>
+              <p className="text-sm text-red-500">Something went wrong. Try again.</p>
             )}
 
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-lg transition disabled:opacity-50"
+              className="w-full rounded-xl bg-orange-600 py-3 font-semibold text-white shadow-lg shadow-orange-600/25 transition hover:bg-orange-500 disabled:opacity-50 dark:bg-cyber dark:text-charcoal dark:shadow-cyber hover:dark:brightness-110"
             >
               {loading ? "Sending..." : "Send Message"}
             </motion.button>
           </motion.form>
 
-          {/* Contact Info & Socials */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className="flex flex-col justify-center space-y-8"
           >
-            <p className="text-lg leading-relaxed">
-              Whether you have a question, want to collaborate, or just say hi , 
-              my inbox is always open. I’ll try my best to get back to you quickly.
+            <p className="text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
+              Freelance, full-time, or a quick technical chat—drop a line. I usually
+              reply within a day or two.
             </p>
 
-            <div className="flex gap-6 text-2xl">
-              <a href="https://www.linkedin.com/in/nasib-burhan-ab446235b/" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 transition">
+            <div className="flex gap-6 text-2xl text-zinc-600 dark:text-zinc-400">
+              <a
+                href="https://www.linkedin.com/in/nasib-burhan-ab446235b/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-orange-600 dark:hover:text-cyber"
+                aria-label="LinkedIn"
+              >
                 <FaLinkedin />
               </a>
-              <a href="https://github.com/Nasibcs" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 transition">
+              <a
+                href="https://github.com/Nasibcs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-orange-600 dark:hover:text-cyber"
+                aria-label="GitHub"
+              >
                 <FaGithub />
               </a>
-              <a href="/contact" className="hover:text-green-500 transition">
+              <a
+                href="#contact-form"
+                className="transition hover:text-orange-600 dark:hover:text-cyber"
+                aria-label="Jump to contact form"
+              >
                 <FaEnvelope />
               </a>
             </div>
           </motion.div>
-
         </div>
       </div>
     </div>
