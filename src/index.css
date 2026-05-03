@@ -1,3 +1,66 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  body {
+    @apply antialiased font-sans text-zinc-900 dark:bg-charcoal dark:text-zinc-100;
+  }
+  ::selection {
+    @apply bg-cyber/35 text-charcoal dark:bg-cyber/40 dark:text-charcoal;
+  }
+}
+
+@layer utilities {
+  @media (pointer: fine) {
+    html.custom-cursor-active {
+      cursor: none;
+    }
+    html.custom-cursor-active button,
+    html.custom-cursor-active a,
+    html.custom-cursor-active [role="button"],
+    html.custom-cursor-active label,
+    html.custom-cursor-active summary {
+      cursor: none;
+    }
+    html.custom-cursor-active input[type="text"],
+    html.custom-cursor-active input[type="email"],
+    html.custom-cursor-active input[type="search"],
+    html.custom-cursor-active input[type="url"],
+    html.custom-cursor-active input[type="password"],
+    html.custom-cursor-active textarea {
+      cursor: text;
+    }
+    html.custom-cursor-active select {
+      cursor: none;
+    }
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply border border-zinc-200/80 bg-white/70 shadow-glass backdrop-blur-xl;
+  }
+  .dark .glass-panel {
+    border-color: rgb(255 255 255 / 0.1);
+    background-color: rgb(255 255 255 / 0.06);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+  }
+  .glass-panel-strong {
+    @apply border border-zinc-200/90 bg-white/85 backdrop-blur-2xl;
+  }
+  .dark .glass-panel-strong {
+    border-color: rgb(255 255 255 / 0.12);
+    background-color: rgb(26 26 26 / 0.85);
+    backdrop-filter: blur(40px);
+  }
+}

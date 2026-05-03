@@ -1,63 +1,95 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
-import image from "./images/nasibi.jpg"
+import image from "./images/image.jpeg";
+
+const skills = [
+  "React · Next-style SPA",
+  "TypeScript · JavaScript",
+  "Node.js · REST APIs",
+  "Databases & auth",
+  "UI polish & UX",
+];
+
 export default function About() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white to-gray-100 dark:from-gray-900 dark:to-gray-950 text-gray-800 dark:text-gray-200 flex items-center justify-center">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 flex flex-col lg:flex-row items-center gap-16">
-
-        {/* Profile Image with Glow */}
+    <div className="min-h-screen bg-gradient-to-br from-zinc-50 via-white to-orange-50/40 dark:from-charcoal dark:via-charcoal dark:to-charcoal-soft">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-16 px-6 py-28 lg:flex-row lg:items-center lg:justify-between lg:px-12">
         <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
+          initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          whileHover={{ scale: 1.05 }}
-          className="relative"
+          transition={{ duration: 0.7 }}
+          whileHover={{ scale: 1.02 }}
+          className="relative shrink-0"
         >
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-green-400 to-emerald-600 blur-3xl opacity-30 animate-pulse"></div>
+          <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-tr from-orange-300/35 to-violet-300/20 blur-2xl dark:from-cyber/14 dark:to-cyber/5" />
           <img
             src={image}
-            alt="Profile"
-            className="relative w-[22rem] h-[22rem] object-cover rounded-3xl shadow-2xl border border-green-500/20"
+            alt="Nasib Burhan"
+            className="relative aspect-square w-[min(100%,22rem)] max-w-md rounded-[1.75rem] border border-zinc-200/90 object-cover shadow-glass dark:border-white/15 dark:shadow-glass-dark md:w-[24rem]"
           />
         </motion.div>
 
-        {/* About Text Card */}
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
+          initial={{ opacity: 0, x: 36 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="backdrop-blur-md bg-white/60 dark:bg-gray-800/50 p-10 rounded-3xl shadow-lg max-w-2xl"
+          transition={{ duration: 0.7 }}
+          className="glass-panel-strong w-full max-w-2xl rounded-[1.75rem] p-10"
         >
-          <h1 className="text-5xl font-extrabold mb-8 bg-gradient-to-r from-green-500 to-emerald-600 bg-clip-text text-transparent">
-            About Me
+          <p className="text-sm font-semibold uppercase tracking-widest text-orange-600 dark:text-cyber">
+            About
+          </p>
+          <h1 className="mt-2 text-4xl font-bold tracking-tight text-zinc-900 dark:text-white md:text-5xl">
+            Building products, not just pages
           </h1>
-          <p className="mb-6 leading-relaxed text-lg">
-            Hi, I’m <span className="font-semibold text-green-500">Nasib</span> a passionate 
-            frontend developer who loves creating beautiful, interactive, and modern web 
-            experiences. My focus is on clean design, smooth animations, and delivering 
-            impactful digital solutions.
+
+          <p className="mt-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
+            I&apos;m{" "}
+            <span className="font-semibold text-orange-600 dark:text-cyber">Nasib</span>—
+            a full stack web developer focused on clear architecture, dependable APIs, and
+            interfaces that feel fast and intentional.
           </p>
-          <p className="mb-6 leading-relaxed text-lg">
-            I have a strong background in JavaScript, React, and UI/UX design principles. 
-            I believe design should not just look good but feel great to use.
-          </p>
-          <p className="mb-8 leading-relaxed text-lg">
-            When I’m not coding, you can find me exploring new tech trends, designing UI concepts, 
-            or enjoying a good cup of coffee.
+          <p className="mt-4 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
+            From database design and authentication to polished React frontends, I enjoy
+            owning features across the stack and shipping maintainable code.
           </p>
 
-          {/* Social Icons */}
-          <div className="flex gap-6">
-            <Link to="https://www.linkedin.com/in/nasib-burhan-ab446235b/" target="_blank" rel="noopener noreferrer">
-              <FaLinkedin className="w-7 h-7 hover:text-green-500 transition-colors" />
-            </Link>
-            <Link to="https://github.com/Nasibcs" target="_blank" rel="noopener noreferrer">
-              <FaGithub className="w-7 h-7 hover:text-green-500 transition-colors" />
-            </Link>
-            <Link to="/contact">
-              <FaEnvelope className="w-7 h-7 hover:text-green-500 transition-colors" />
+          <ul className="mt-8 flex flex-wrap gap-2">
+            {skills.map((s) => (
+              <li
+                key={s}
+                className="rounded-lg border border-orange-500/25 bg-orange-500/10 px-3 py-1.5 text-sm font-medium text-zinc-700 dark:border-cyber/20 dark:bg-cyber/10 dark:text-zinc-200"
+              >
+                {s}
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-10 flex flex-wrap gap-5 text-xl text-zinc-600 dark:text-zinc-400">
+            <a
+              href="https://www.linkedin.com/in/nasib-burhan-ab446235b/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition hover:text-orange-600 dark:hover:text-cyber"
+              aria-label="LinkedIn"
+            >
+              <FaLinkedin className="h-7 w-7" />
+            </a>
+            <a
+              href="https://github.com/Nasibcs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition hover:text-orange-600 dark:hover:text-cyber"
+              aria-label="GitHub"
+            >
+              <FaGithub className="h-7 w-7" />
+            </a>
+            <Link
+              to="/contact"
+              className="transition hover:text-orange-600 dark:hover:text-cyber"
+              aria-label="Email via contact form"
+            >
+              <FaEnvelope className="h-7 w-7" />
             </Link>
           </div>
         </motion.div>

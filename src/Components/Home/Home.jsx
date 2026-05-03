@@ -1,80 +1,82 @@
 import { motion } from "framer-motion";
-import '../../index.css';
 import { Link } from "react-router-dom";
-import img from "../About/images/img.jpg"
+import img from "../About/images/image.jpeg";
+
 export default function Landing() {
   return (
-    <div className="relative h-[50rem] flex flex-col lg:flex-row items-center px-4 
-    bg-gradient-to-b from-white via-gray-50 to-gray-200 
-    dark:from-black dark:via-gray-900 dark:to-gray-950 
-    text-black dark:text-white transition-colors duration-500 overflow-hidden
-      md:h-[56rem] lg:h-screen xl:h-[45rem]">
+    <section className="relative isolate flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-5 pb-24 pt-28 lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:px-12 xl:mx-auto xl:max-w-7xl">
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_85%_55%_at_50%_-15%,rgba(59,130,246,0.08),transparent)] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%-10%,rgba(204,255,0,0.09),transparent)]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -left-32 top-1/4 h-[28rem] w-[28rem] rounded-full bg-orange-400/15 blur-[100px] dark:bg-cyber/10"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -right-24 bottom-1/4 h-72 w-72 rounded-full bg-violet-400/12 blur-[90px] dark:bg-cyber/10"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-zinc-300/70 to-transparent dark:via-cyber/25"
+        aria-hidden
+      />
 
-      <div className="absolute top-10 left-10 w-72 h-72 bg-green-400/30 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-10 right-10 w-72 h-72 bg-green-600/20 rounded-full blur-3xl animate-pulse"></div>
-
-      <motion.div 
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
-        className="w-full lg:w-1/2 flex items-center justify-center order-2 lg:order-1 py-10 lg:py-0 relative top-[12rem] lg:top-20 xl:top-14"
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.65 }}
+        className="relative order-2 flex w-full max-w-md shrink-0 justify-center lg:order-1 lg:max-w-none lg:flex-1"
       >
-        <div className="relative  w-80 h-80 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-green-400/30 shadow-2xl shadow-green-500/20 xl:h-[30rem] xl:w-[30rem]">
-          <div className="w-full h-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white text-lg">
-          <img 
-  src={img}
-  alt="Nasib" 
-  className="w-full h-full object-cover"
-/>
+        <div className="relative">
+          <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-orange-300/25 via-transparent to-violet-300/25 opacity-90 blur-xl dark:from-cyber/12 dark:to-cyber/5" />
+          <div className="glass-panel-strong relative aspect-square w-[min(85vw,20rem)] overflow-hidden rounded-[2rem] shadow-glass ring-1 ring-zinc-200/80 dark:border dark:border-white/10 dark:bg-charcoal-soft/50 dark:ring-cyber/15 sm:w-[min(72vw,22rem)] md:w-[min(60vw,24rem)] lg:w-[min(42vw,26rem)]">
+            <img src={img} alt="Nasib Burhan" className="h-full w-full object-cover" />
           </div>
-          <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-green-500/10 rounded-full"></div>
-          <div className="absolute -top-4 -right-4 w-16 h-16 bg-green-500/20 rounded-full"></div>
         </div>
       </motion.div>
 
-      <motion.div 
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
-        className="w-full lg:w-[40rem] flex flex-col items-center lg:items-start justify-center order-1 lg:order-2 text-center lg:text-left px-4 lg:px-12 relative top-[12rem] lg:top-24 xl:top-10 xl:w-[50rem]
-           "
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.65, delay: 0.08 }}
+        className="relative order-1 flex w-full max-w-xl flex-col items-center text-center lg:order-2 lg:max-w-2xl lg:items-start lg:text-left xl:max-w-[32rem]"
       >
-        <motion.h1
-          initial={{ opacity: 0, y: -40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-5xl sm:text-7xl font-extrabold tracking-tight drop-shadow-lg xl:text-8xl"
-        >
-          Hi, I'm <span className="text-green-500">Nasib</span>
-        </motion.h1>
+        <span className="glass-panel mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-800 dark:border-cyber/25 dark:text-cyber">
+          Full stack web developer
+        </span>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 1 }}
-          className="text-gray-700 dark:text-gray-400 mt-4 text-lg sm:text-2xl max-w-2xl leading-relaxed"
-        >
-          I design and build <span className="text-green-500 font-semibold">modern</span> & 
-          <span className="text-green-400 font-semibold"> interactive</span> web experiences that leave a lasting impression.
-        </motion.p>
+        <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-5xl md:text-6xl lg:text-[3.35rem] lg:leading-[1.1] xl:text-6xl">
+          Hi, I&apos;m{" "}
+          <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 bg-clip-text text-transparent dark:from-cyber dark:via-cyber-glow dark:to-cyber-muted">
+            Nasib
+          </span>
+        </h1>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
-          className="mt-10 xl:mt-13"
-        >
+        <p className="mt-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-xl">
+          I ship end-to-end products—polished interfaces, solid APIs, and data layers
+          that scale. Frontend craft meets backend clarity.
+        </p>
+
+        <p className="mt-3 max-w-xl text-base text-zinc-500 dark:text-zinc-500">
+          React · TypeScript · Node · REST APIs · SQL & pragmatic architecture.
+        </p>
+
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
           <Link
             to="/projects"
-            className="inline-block px-8 py-3 bg-green-600 hover:bg-green-700 
-            text-white rounded-full font-semibold shadow-lg hover:shadow-green-500/50 
-            transition-all duration-300 transform hover:scale-105 xl:p-4 xl:rounded-lg xl:w-[10rem] text-center"
+            className="inline-flex items-center justify-center rounded-xl bg-orange-600 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-600/25 transition hover:bg-orange-500 dark:bg-cyber dark:text-charcoal dark:shadow-cyber hover:dark:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyber dark:focus-visible:outline-cyber"
           >
-            View My Work
+            View projects
           </Link>
-        </motion.div>
-        
+          <Link
+            to="/contact"
+            className="glass-panel inline-flex items-center justify-center rounded-xl px-8 py-3 text-sm font-semibold text-zinc-800 transition hover:border-cyber/40 hover:text-orange-700 dark:text-zinc-200 dark:hover:border-cyber/35 dark:hover:text-cyber"
+          >
+            Let&apos;s talk
+          </Link>
+        </div>
       </motion.div>
-    </div>
+    </section>
   );
 }

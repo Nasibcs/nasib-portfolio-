@@ -4,10 +4,13 @@ import Nav from "./Components/Nav/Nav"
 import About from './Components/About/About';
 import Projects from './Components/Projects/Projects';
 import Contact from './Components/Contact/Contact';
+import CustomCursor from './Components/Cursor/CustomCursor';
+
 function App() {
   return (
-    <>
+    <div className="min-h-screen bg-zinc-50 dark:bg-charcoal">
       <Router>
+        <CustomCursor />
         <Nav/>
         <Routes>
      
@@ -27,7 +30,7 @@ function App() {
           <Route path='/contact' element={<Contact/>}/>
         </Routes>
       </Router>
-    </>
+    </div>
   );
 }
 
