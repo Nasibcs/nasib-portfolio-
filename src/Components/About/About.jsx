@@ -45,7 +45,7 @@ export default function About() {
 
           <p className="mt-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
             I&apos;m{" "}
-            <span className="font-semibold text-orange-600 dark:text-cyber">Nasib</span>—
+            <span className="font-semibold text-orange-600 dark:text-cyber">Nasib
             a full stack web developer focused on clear architecture, dependable APIs, and
             interfaces that feel fast and intentional.
           </p>
