@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
@@ -93,21 +94,21 @@ export default function Nav() {
 
   return (
     <motion.nav
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
-          ? "border-b border-zinc-200/90 bg-white/75 py-3 shadow-sm backdrop-blur-2xl dark:border-white/10 dark:bg-charcoal/80 dark:backdrop-blur-2xl"
-          : "bg-transparent py-4"
+      className={`fixed top-0 w-full transition-all duration-300 ${
+        isOpen ? "z-[10001]" : "z-50"
+      } ${
+        isOpen
+          ? "border-b border-zinc-200/90 bg-white py-3 shadow-md dark:border-white/10 dark:bg-charcoal"
+          : scrolled
+            ? "border-b border-zinc-200/90 bg-white/75 py-3 shadow-sm backdrop-blur-2xl dark:border-white/10 dark:bg-charcoal/80 dark:backdrop-blur-2xl"
+            : "bg-transparent py-4"
       }`}
       initial={{ y: -100 }}
       animate={hidden && !isOpen ? "hidden" : "visible"}
       variants={navVariants}
       transition={{ duration: 0.3 }}
     >
-      <div
-        className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ${
-          isOpen ? "relative z-[70]" : ""
-        }`}
-      >
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <motion.div whileHover={{ scale: 1.02 }}>
             <Link to="/" className="block leading-tight">
@@ -154,39 +155,52 @@ export default function Nav() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[55] flex flex-col items-center justify-center overscroll-none bg-white/85 backdrop-blur-2xl dark:bg-charcoal/92 md:hidden"
-            role="presentation"
-            onClick={() => setIsOpen(false)}
-          >
-            <motion.ul
-              variants={mobileNavVariant}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              className="space-y-8 text-center"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {navItems.map((item) => (
-                <motion.li key={item.name} variants={itemVariant}>
-                  <Link
-                    to={item.path}
-                    onClick={() => setIsOpen(false)}
-                    className="block py-2 text-2xl font-semibold text-zinc-700 transition-colors hover:text-orange-600 dark:text-zinc-200 dark:hover:text-cyber"
+      {typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                key="mobile-nav-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                style={{ zIndex: 10000 }}
+                className="fixed inset-0 flex min-h-[100dvh] flex-col items-center overscroll-none bg-white dark:bg-charcoal md:hidden"
+                role="presentation"
+                aria-hidden={!isOpen}
+                onClick={() => setIsOpen(false)}
+              >
+                {/* Offset below fixed header (~4rem + safe area) so first link is never clipped */}
+                <div
+                  className="flex w-full max-w-lg flex-1 flex-col justify-center px-6 text-center pt-[calc(env(safe-area-inset-top,0px)+5.5rem)] pb-[max(4rem,env(safe-area-inset-bottom,0px))]"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <motion.ul
+                    variants={mobileNavVariant}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    className="space-y-6 sm:space-y-8"
                   >
-                    {item.name}
-                  </Link>
-                </motion.li>
-              ))}
-            </motion.ul>
-          </motion.div>
+                    {navItems.map((item) => (
+                      <motion.li key={item.name} variants={itemVariant}>
+                        <Link
+                          to={item.path}
+                          onClick={() => setIsOpen(false)}
+                          className="block py-1 text-3xl font-semibold tracking-tight text-zinc-900 hover:text-orange-600 dark:text-white dark:hover:text-cyber sm:text-[1.85rem]"
+                        >
+                          {item.name}
+                        </Link>
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </motion.nav>
   );
 }
