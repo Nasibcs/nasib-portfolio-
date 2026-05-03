@@ -54,13 +54,13 @@ const projects = [
     tags: ["React", "JavaScript", "Tailwind"],
   },
   {
-    title: "Afghan Paint",
+    title: "Kandahar Paint",
     description:
       "Business-focused UI for paint and inventory-style workflows—adaptable to your domain model.",
-    link: "#",
-    repo: "#",
+    link: "https://kandahar-paint.vercel.app/",
+    repo: "https://github.com/Nasibcs/kandahar_Paint",
     image: paint,
-    tags: ["React", "JavaScript", "Tailwind"],
+    tags: ["HTML", "CSS", "JavaScript"],
   },
 ];
 
